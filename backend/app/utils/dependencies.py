@@ -57,6 +57,13 @@ def get_current_user(
             detail="User not found"
         )
 
+    # Step 5: Check the user is active or not
+    if not user.is_active:
+        raise HTTPException(
+        status_code=403,
+        detail="Your account has been deactivated"
+    )
+
     return user
 
 
@@ -82,3 +89,28 @@ def get_reset_token(
         )
 
     return payload
+
+
+
+
+
+def get_current_admin(current_user: User = Depends(get_current_user)):
+    if current_user.role.name != "Admin":
+        raise HTTPException(
+            status_code=403,
+            detail="Admin access required"
+        )
+
+    return current_user
+
+
+
+
+def get_current_agent(current_user: User = Depends(get_current_user)):
+    if current_user.role.name != "Support Agent":
+        raise HTTPException(
+            status_code=403,
+            detail="Support Agent access required"
+        )
+
+    return current_user

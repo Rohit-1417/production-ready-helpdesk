@@ -98,6 +98,12 @@ def login_user(
             status_code=401,
             detail="Invalid email or password"
         )
+    # Check the user is active or not
+    if not user.is_active:
+        raise HTTPException(
+        status_code=403,
+        detail="Your account has been deactivated"
+    )
 
     # Generate access token
     access_token = create_access_token(

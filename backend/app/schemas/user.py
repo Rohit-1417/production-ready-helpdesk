@@ -25,3 +25,13 @@ class ChangePassword(BaseModel):
 
 class UserUpdate(BaseModel):
     name: str = Field(min_length=4, max_length=100)
+
+
+
+
+class UserRoleUpdate(BaseModel):
+    role_id: int = Field(gt=0)
+
+
+class UserStatusUpdate(BaseModel):
+    is_active: bool
